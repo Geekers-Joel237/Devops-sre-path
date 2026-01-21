@@ -30,3 +30,6 @@
 
 # Logs
 /api/storage/logs/*.log
+
+frontend/.env
+frontend/node_modules
