@@ -2,14 +2,19 @@ import { useState, useEffect } from 'react'
 
 function App() {
   const [tasks, setTasks] = useState([])
+  const [stats, setStats] = useState(null)
   const [newTask, setNewTask] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
   const API_URL = import.meta.env.VITE_API_URL
+  // Assuming the stats endpoint is relative to the base API URL or constructed similarly
+  // If VITE_API_URL is http://localhost:8000/api/tasks, we need to strip /tasks to get base
+  const BASE_API_URL = API_URL.replace(/\/tasks$/, '')
 
   useEffect(() => {
     fetchTasks()
+    fetchStats()
   }, [])
 
   const fetchTasks = async () => {
@@ -25,6 +30,17 @@ function App() {
       console.error(err)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchStats = async () => {
+    try {
+      const response = await fetch(`${BASE_API_URL}/stats`)
+      if (!response.ok) throw new Error('Failed to fetch stats')
+      const data = await response.json()
+      setStats(data)
+    } catch (err) {
+      console.error('Could not load stats', err)
     }
   }
 
@@ -46,6 +62,7 @@ function App() {
       const task = await response.json()
       setTasks([...tasks, task])
       setNewTask('')
+      fetchStats() // Refresh stats
     } catch (err) {
       console.error(err)
       alert('Error adding task')
@@ -66,6 +83,7 @@ function App() {
       
       const updatedTask = await response.json()
       setTasks(tasks.map(t => t.id === task.id ? updatedTask : t))
+      fetchStats() // Refresh stats
     } catch (err) {
       console.error(err)
       alert('Error updating task')
@@ -83,6 +101,7 @@ function App() {
       if (!response.ok) throw new Error('Failed to delete task')
       
       setTasks(tasks.filter(t => t.id !== id))
+      fetchStats() // Refresh stats
     } catch (err) {
       console.error(err)
       alert('Error deleting task')
@@ -96,6 +115,23 @@ function App() {
           <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold mb-1">Docker Path</div>
           <h1 className="block mt-1 text-lg leading-tight font-medium text-black mb-6">Todo List</h1>
           
+          {stats && (
+            <div className="grid grid-cols-3 gap-4 mb-6 text-center">
+              <div className="bg-blue-50 p-2 rounded">
+                <div className="text-xl font-bold text-blue-600">{stats.total_tasks}</div>
+                <div className="text-xs text-blue-500">Total</div>
+              </div>
+              <div className="bg-green-50 p-2 rounded">
+                <div className="text-xl font-bold text-green-600">{stats.completed_tasks}</div>
+                <div className="text-xs text-green-500">Done</div>
+              </div>
+              <div className="bg-yellow-50 p-2 rounded">
+                <div className="text-xl font-bold text-yellow-600">{stats.pending_tasks}</div>
+                <div className="text-xs text-yellow-500">Pending</div>
+              </div>
+            </div>
+          )}
+
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
               <span className="block sm:inline">{error}</span>
