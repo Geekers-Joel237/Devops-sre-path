@@ -83,3 +83,51 @@ services (Le cœur : les conteneurs)
 volumes (Le stockage)
 4.
 networks (La communication - on verra ça plus tard)
+
+** Run docker file **
+1. Le Mode "Attaché" (Foreground)
+   Commande : docker-compose up
+   •
+   Ce qui se passe :
+   ◦
+   Docker lance les conteneurs.
+   ◦
+   Il agrège les logs de tous les services et les affiche en temps réel dans votre terminal.
+   ◦
+   Votre terminal est "bloqué".
+   •
+   Quand l'utiliser ?
+   ◦
+   Au tout début, pour vérifier que tout démarre bien (pas de crash immédiat).
+   ◦
+   Quand vous débuggez un problème de démarrage.
+   •
+   Comment arrêter ?
+   ◦
+   Ctrl+C : Cela envoie un signal d'arrêt (SIGTERM) à tous les conteneurs. Ils s'éteignent proprement.
+2. Le Mode "Détaché" (Background) - Le standard
+   Commande : docker-compose up -d
+   •
+   Ce qui se passe :
+   ◦
+   Docker lance les conteneurs en arrière-plan.
+   ◦
+   Il vous rend la main immédiatement dans le terminal.
+   ◦
+   Les conteneurs vivent leur vie indépendamment de votre fenêtre terminal.
+   •
+   Quand l'utiliser ?
+   ◦
+   99% du temps. C'est votre mode de travail quotidien ("Je lance mon infra et je bosse").
+   •
+   Comment voir ce qui se passe ?
+   ◦
+   docker-compose logs -f : Pour suivre les logs en direct (comme le mode attaché).
+   ◦
+   docker-compose ps : Pour voir l'état (Up/Down) des services.
+   •
+   Comment arrêter ?
+   ◦
+   docker-compose stop : Arrête les conteneurs (mais garde leur état).
+   ◦
+   docker-compose down : Arrête ET détruit les conteneurs (et le réseau virtuel). Attention : Les volumes (données) sont conservés par défaut, sauf si vous ajoutez -v.
