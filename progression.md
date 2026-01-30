@@ -2,13 +2,13 @@
 
 ## PHASE 1 — Docker comme infrastructure locale
 
-- [ ] **STEP 1 — Services externes conteneurisés**
-  - **Cas :** MySQL, Redis
-  - **Apprentissages :** Volumes, Réseau, Ports, Lifecycle
+- [x] **STEP 1 — Services externes conteneurisés** (VALIDÉ)
+  - **Cas :** MySQL (remplacé par PostgreSQL), Redis
+  - **Apprentissages :** Volumes, Réseau, Ports, Lifecycle, Docker Compose, Variables d'environnement
   - **Valeur :** Environnements reproductibles, Onboarding rapide
 
 - [ ] **STEP 1.5 — Lifecycle, résilience minimale & erreurs réelles**
-  - **Cas :** Redémarrage MySQL, Redis indisponible, Crash conteneur
+  - **Cas :** Redémarrage DB, Redis indisponible, Crash conteneur
   - **Concepts :** Restart policies, Healthchecks, Crash vs Stop, Tolérance pannes app
   - **Valeur :** 🔥🔥🔥 Savoir raisonner sur les pannes avant la prod
 
