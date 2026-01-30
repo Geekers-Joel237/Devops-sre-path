@@ -20,7 +20,7 @@ function App() {
   const fetchTasks = async () => {
     setLoading(true)
     try {
-      const response = await fetch(API_URL)
+      const response = await fetch(`${BASE_API_URL}/tasks`)
       if (!response.ok) throw new Error('Failed to fetch tasks')
       const data = await response.json()
       setTasks(data)
@@ -49,7 +49,7 @@ function App() {
     if (!newTask.trim()) return
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(`${BASE_API_URL}/tasks`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ function App() {
 
   const toggleTask = async (task) => {
     try {
-      const response = await fetch(`${API_URL}/${task.id}`, {
+      const response = await fetch(`${BASE_API_URL}/tasks/${task.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ function App() {
     if (!confirm('Are you sure you want to delete this task?')) return
 
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
+      const response = await fetch(`${BASE_API_URL}/tasks/${id}`, {
         method: 'DELETE',
       })
 

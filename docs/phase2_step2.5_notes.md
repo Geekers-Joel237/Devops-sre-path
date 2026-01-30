@@ -60,3 +60,18 @@ Résumé du plan d'action
 Créer le Dockerfile (Multi-stage) dans frontend/ : Il sera "Production Ready" par défaut.
 2.
 Modifier docker-compose.yml : Ajouter le service frontend, mais le configurer spécifiquement pour le mode "Dev" (Port 5173, Volume, Commande dev).
+
+3. Le cas de la Production (L'Image)
+   En production (où on n'utilise pas de volumes de code), l'image ne contiendra effectivement pas de fichier .env. C'est voulu. On ne veut pas "hardcoder" la config dans l'image. Cependant, pour éviter que Laravel ne plante parce qu'il manque des clés de base (comme APP_KEY ou LOG_CHANNEL), la bonne pratique est de copier le .env.example vers .env pendant le build.
+   Cela crée un fichier .env "squelette" avec des valeurs par défaut inoffensives. Ensuite, Docker Compose (ou Kubernetes) injectera les vraies valeurs (DB, Secrets) via les variables d'environnement, qui sont prioritaires.
+   Action recommandée : Je vais modifier le api/Dockerfile pour copier .env.example vers .env à la fin du build. C'est une sécurité pour s'assurer que le fichier existe toujours, même sans volume.
+
+J'ai ajouté l'étape RUN cp .env.example .env dans le api/Dockerfile.
+Résumé du fonctionnement :
+1.
+Build : Docker ignore votre .env local (sécurité). Il copie .env.example vers .env dans l'image (structure de base).
+2.
+Dev (avec Volume) : Le volume ./api:/var/www/html prend le dessus. Le conteneur voit votre .env local réel. Tout fonctionne comme sur votre machine.
+3.
+Prod (sans Volume) : Le conteneur utilise le .env (copie de l'exemple) + les variables d'environnement injectées par docker-compose.yml (ou votre orchestrateur). Les variables injectées (Environment Variables) sont prioritaires sur celles du fichier .env.
+C'est le meilleur des deux mondes : flexibilité en dev, sécurité et immutabilité en prod.
