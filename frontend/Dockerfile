@@ -21,8 +21,8 @@ FROM nginx:alpine
 # Copie des fichiers buildés depuis le stage précédent
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copie d'une config Nginx personnalisée (optionnel mais recommandé pour React Router)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copie de la config Nginx personnalisée pour gérer le routing SPA
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 # Exposition du port 80
 EXPOSE 80

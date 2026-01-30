@@ -19,7 +19,7 @@
   - **Concepts :** Image vs conteneur, Build vs Run, Dockerfile contract, Nginx + PHP-FPM (Découplage), DNS Interne
   - **Valeur :** 🔥🔥🔥🔥 Standardisation des déploiements
 
-- [ ] **STEP 2.5 — Containeriser le frontend (React)**
+- [x] **STEP 2.5 — Containeriser le frontend (React)**
   - **Objectif :** Serving statique Nginx
   - **Concepts :** Multi-stage builds, Séparation build/serve
   - **Valeur :** Performance, Simplicité d’exploitation
