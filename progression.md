@@ -14,9 +14,9 @@
 
 ## PHASE 2 — Containerisation applicative
 
-- [ ] **STEP 2 — Containeriser le backend (Laravel API)**
+- [x] **STEP 2 — Containeriser le backend (Laravel API)** (VALIDÉ)
   - **Objectif :** Artefact immuable
-  - **Concepts :** Image vs conteneur, Build vs Run, Dockerfile contract
+  - **Concepts :** Image vs conteneur, Build vs Run, Dockerfile contract, Nginx + PHP-FPM (Découplage), DNS Interne
   - **Valeur :** 🔥🔥🔥🔥 Standardisation des déploiements
 
 - [ ] **STEP 2.5 — Containeriser le frontend (React)**
