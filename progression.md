@@ -7,9 +7,9 @@
   - **Apprentissages :** Volumes, Réseau, Ports, Lifecycle, Docker Compose, Variables d'environnement
   - **Valeur :** Environnements reproductibles, Onboarding rapide
 
-- [ ] **STEP 1.5 — Lifecycle, résilience minimale & erreurs réelles**
+- [x] **STEP 1.5 — Lifecycle, résilience minimale & erreurs réelles** (VALIDÉ)
   - **Cas :** Redémarrage DB, Redis indisponible, Crash conteneur
-  - **Concepts :** Restart policies, Healthchecks, Crash vs Stop, Tolérance pannes app
+  - **Apprentissages :** Restart policies (unless-stopped), Healthchecks (pg_isready, redis-cli ping), Variable escaping ($$)
   - **Valeur :** 🔥🔥🔥 Savoir raisonner sur les pannes avant la prod
 
 ## PHASE 2 — Containerisation applicative
