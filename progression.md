@@ -19,21 +19,21 @@
   - **Concepts :** Image vs conteneur, Build vs Run, Dockerfile contract, Nginx + PHP-FPM (Découplage), DNS Interne
   - **Valeur :** 🔥🔥🔥🔥 Standardisation des déploiements
 
-- [x] **STEP 2.5 — Containeriser le frontend (React)**
+- [x] **STEP 2.5 — Containeriser le frontend (React)** (VALIDÉ)
   - **Objectif :** Serving statique Nginx
-  - **Concepts :** Multi-stage builds, Séparation build/serve
+  - **Concepts :** Multi-stage builds, Séparation build/serve, Configuration Nginx pour SPA (`try_files`)
   - **Valeur :** Performance, Simplicité d’exploitation
 
 ## PHASE 3 — Architecture complète locale (parité dev/prod)
 
-- [ ] **STEP 3 — Environnement complet orchestré (docker-compose)**
+- [x] **STEP 3 — Environnement complet orchestré (docker-compose)** (VALIDÉ)
   - **Stack :** Nginx, React, Laravel, MySQL, Redis
-  - **Concepts :** DNS interne, Réseaux, Dépendances
+  - **Concepts :** DNS interne, Réseaux, Dépendances (`depends_on`), Gestion CORS
   - **Valeur :** 🔥🔥🔥🔥🔥 Vision systémique, Débogage réel
 
 - [ ] **STEP 3.5 — Configuration & secrets**
   - **Cas :** Multi-environnements, Variables sensibles
-  - **Concepts :** Config ≠ code, Secrets runtime
+  - **Concepts :** Config ≠ code, Secrets runtime, Fichiers d'override
   - **Valeur :** 🔥🔥🔥🔥 Sécurité, Auditabilité
 
 ## PHASE 4 — Exécution production-grade
