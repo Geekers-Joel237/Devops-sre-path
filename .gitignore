@@ -1,12 +1,23 @@
+# Global
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Environment Variables (Sécurité Maximale)
+.env
+.env.*
+!.env.example
+*.env
+
 # Laravel
 /api/vendor/
 /api/node_modules/
 /api/public/hot
 /api/public/storage
 /api/storage/*.key
-/api/.env
-/api/.env.backup
-/api/.env.production
 /api/.phpunit.result.cache
 /api/Homestead.json
 /api/Homestead.yaml
@@ -20,18 +31,12 @@
 /api/public/js/
 /api/public/mix-manifest.json
 
-# IDE
-/.idea/
-/.vscode/
-*.swp
-*.swo
-*~
-.DS_Store
-
 # Logs
 /api/storage/logs/*.log
 
-frontend/.env
+# Frontend
 frontend/node_modules
-
-.env
+frontend/dist
+frontend/.env
+frontend/.env.local
+frontend/.env.*

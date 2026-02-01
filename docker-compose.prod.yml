@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # --- Service Frontend (Production & Gateway) ---
+  frontend:
+    container_name: prod-todo-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # L'URL de l'API est maintenant relative au domaine courant (/api)
+        VITE_API_URL: /api
+    restart: always
+    ports:
+      - "${PROD_FRONTEND_PORT:-80}:80"
+    depends_on:
+      - nginx
+
+  # --- Service Web API (Nginx) ---
+  nginx:
+    container_name: prod-todo-nginx
+    restart: always
+    # Plus de ports exposés (interne uniquement)
+    # Plus de volumes (tout est dans l'image)
+
+  # --- Service App (PHP-FPM) ---
+  api:
+    container_name: prod-todo-api
+    restart: always
+    environment:
+      - APP_ENV=${PROD_APP_ENV}
+      - APP_DEBUG=false
+      - APP_KEY=${PROD_APP_KEY}
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=${PROD_DB_NAME}
+      - DB_USERNAME=${PROD_DB_USER}
+      - DB_PASSWORD=${PROD_DB_PASSWORD}
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=${PROD_REDIS_PASSWORD}
+
+  # --- Service Database ---
+  postgres:
+    container_name: prod-todo-postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=${PROD_DB_NAME}
+      - POSTGRES_USER=${PROD_DB_USER}
+      - POSTGRES_PASSWORD=${PROD_DB_PASSWORD}
+    volumes:
+      - postgres-prod-data:/var/lib/postgresql/data
+
+  # --- Service Cache ---
+  redis:
+    container_name: prod-todo-redis
+    restart: always
+    command: redis-server --requirepass ${PROD_REDIS_PASSWORD}
+    volumes:
+      - redis-prod-data:/data
+
+volumes:
+  postgres-prod-data:
+  redis-prod-data:

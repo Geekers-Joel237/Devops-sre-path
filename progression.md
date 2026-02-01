@@ -31,7 +31,7 @@
   - **Concepts :** DNS interne, Réseaux, Dépendances (`depends_on`), Gestion CORS
   - **Valeur :** 🔥🔥🔥🔥🔥 Vision systémique, Débogage réel
 
-- [ ] **STEP 3.5 — Configuration & secrets**
+- [x] **STEP 3.5 — Configuration & secrets** (VALIDÉ)
   - **Cas :** Multi-environnements, Variables sensibles
   - **Concepts :** Config ≠ code, Secrets runtime, Fichiers d'override
   - **Valeur :** 🔥🔥🔥🔥 Sécurité, Auditabilité

@@ -3,6 +3,11 @@ FROM node:20.19-alpine as build
 
 WORKDIR /app
 
+# Déclaration de l'argument de build (avec une valeur par défaut vide)
+ARG VITE_API_URL
+# Transformation en variable d'environnement pour que le build Vite puisse la lire
+ENV VITE_API_URL=$VITE_API_URL
+
 # On copie d'abord les fichiers de dépendances pour profiter du cache Docker
 COPY package.json package-lock.json ./
 

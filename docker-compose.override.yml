@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # --- Service Frontend (React) ---
+  frontend:
+    container_name: todo-dev-frontend
+    build:
+      target: build  # En dev, on s'arrête au stage Node.js
+    ports:
+      - "${FRONTEND_PORT}:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev -- --host
+    environment:
+      - VITE_API_URL=http://localhost:8000/api
+
+  # --- Service Web (Nginx) ---
+  nginx:
+    container_name: todo-dev-nginx
+    ports:
+      - "${API_PORT}:80"
+    volumes:
+      - ./api:/var/www/html
+      - ./api/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+  # --- Service App (PHP-FPM) ---
+  api:
+    container_name: todo-dev-api
+    volumes:
+      - ./api:/var/www/html
+
+  # --- Service Database ---
+  postgres:
+    container_name: todo-dev-postgres
+    ports:
+      - "${POSTGRES_PORT}:5432"
+
+  # --- Service Cache ---
+  redis:
+    container_name: todo-dev-redis
+    ports:
+      - "${REDIS_PORT}:6379"
+
+  # --- Service Admin (pgAdmin) ---
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: todo-dev-pgadmin
+    restart: unless-stopped
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@admin.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-root}
+    depends_on:
+      - postgres

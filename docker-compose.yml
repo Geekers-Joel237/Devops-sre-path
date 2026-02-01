@@ -6,34 +6,15 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      target: build  # On s'arrête au stage "build" (Node.js) pour le dev
-    container_name: todo-frontend
+      # En prod, on utilisera le stage final par défaut, donc pas de target ici
     restart: unless-stopped
-    ports:
-      - "${FRONTEND_PORT}:5173"
-    volumes:
-      - ./frontend:/app
-      # Astuce : on crée un volume anonyme pour node_modules pour éviter
-      # qu'il soit écrasé par le dossier local (qui n'a peut-être pas les dépendances)
-      - /app/node_modules
-    # On surcharge la commande pour lancer le serveur de dev
-    command: npm run dev -- --host
-    environment:
-      # On pointe vers l'API (attention : c'est l'URL vue par le NAVIGATEUR, donc localhost:8000)
-      - VITE_API_URL=http://localhost:8000/api
     depends_on:
       - nginx
 
   # --- Service Web (Nginx) ---
   nginx:
     image: nginx:alpine
-    container_name: todo-nginx
     restart: unless-stopped
-    ports:
-      - "${API_PORT}:80"
-    volumes:
-      - ./api:/var/www/html
-      - ./api/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - api
 
@@ -42,10 +23,7 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
-    container_name: todo-api
     restart: unless-stopped
-    volumes:
-      - ./api:/var/www/html
     environment:
       - DB_CONNECTION=pgsql
       - DB_HOST=postgres
@@ -64,10 +42,7 @@ services:
   # --- Service Database ---
   postgres:
     image: postgres:17-alpine
-    container_name: todo-postgres
     restart: unless-stopped
-    ports:
-      - "${POSTGRES_PORT}:5432"
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -83,10 +58,7 @@ services:
   # --- Service Cache ---
   redis:
     image: redis:alpine
-    container_name: todo-redis
     restart: unless-stopped
-    ports:
-      - "${REDIS_PORT}:6379"
     volumes:
       - redis-data:/data
     healthcheck:
