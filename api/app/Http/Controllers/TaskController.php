@@ -11,6 +11,7 @@ class TaskController extends Controller
 {
     public function index(): Collection
     {
+        throw new \Exception("Ceci est un test d'erreur !");
         return Task::all();
     }
 

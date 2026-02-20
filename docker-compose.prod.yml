@@ -39,6 +39,10 @@ services:
       - DB_PASSWORD=${PROD_DB_PASSWORD}
       - REDIS_HOST=redis
       - REDIS_PASSWORD=${PROD_REDIS_PASSWORD}
+      - LOG_CHANNEL=${PROD_LOG_CHANNEL:-stderr}
+      - LOG_STACK=${PROD_LOG_STACK:-single}
+      - LOG_DEPRECATIONS_CHANNEL=${PROD_LOG_DEPRECATIONS_CHANNEL:-null}
+      - LOG_LEVEL=${PROD_LOG_LEVEL:-error}
 
   # --- Service Database ---
   postgres:
